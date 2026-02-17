@@ -1,0 +1,10 @@
+{
+	"waves": [
+		{
+			"name": "random",
+		},
+		{
+			"name": "spiral"
+		}
+	]
+}

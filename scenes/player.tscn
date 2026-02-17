@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cpdhv0qexahfy"]
+
+[ext_resource type="Script" uid="uid://bp4xduiy1y34m" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://c3bnuohr5b8m8" path="res://scripts/shield.gd" id="2_g2els"]
+[ext_resource type="Script" uid="uid://bca3h8km4lq48" path="res://scripts/enemy_controller.gd" id="3_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://bcequxjkiplrg" path="res://scenes/enemy.tscn" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://bwhg872tig3tw" path="res://scripts/points_counter.gd" id="5_qlg0r"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g2els"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qhqgy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
+size = Vector2(8, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
+size = Vector2(42, 40)
+
+[node name="Player" type="Area2D" unique_id=1147829799]
+script = ExtResource("1_3vyb7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1395084814]
+rotation = -3.1415927
+scale = Vector2(42.92386, 41)
+texture = SubResource("PlaceholderTexture2D_g2els")
+
+[node name="Shield" type="Area2D" parent="." unique_id=241480938]
+script = ExtResource("2_g2els")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shield" unique_id=875933608]
+rotation = -1.5707963
+scale = Vector2(56.99999, -8.594066)
+texture = SubResource("PlaceholderTexture2D_qhqgy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield" unique_id=24561949]
+shape = SubResource("RectangleShape2D_dqkch")
+
+[node name="EnemyController" type="Node2D" parent="." unique_id=661125597 node_paths=PackedStringArray("player")]
+script = ExtResource("3_qhqgy")
+enemy_scene = ExtResource("4_dqkch")
+player = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1805818382]
+shape = SubResource("RectangleShape2D_qlg0r")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1436623042]
+script = ExtResource("5_qlg0r")
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=110899159]
+offset_right = 40.0
+offset_bottom = 23.0
