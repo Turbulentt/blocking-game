@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bca3h8km4lq48" path="res://scripts/enemy_controller.gd" id="3_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bcequxjkiplrg" path="res://scenes/enemy.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://bwhg872tig3tw" path="res://scripts/points_counter.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://yjlan0cbdqgl" path="res://scripts/wave_generation.gd" id="5_tuyoq"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g2els"]
 
@@ -39,6 +40,9 @@ shape = SubResource("RectangleShape2D_dqkch")
 script = ExtResource("3_qhqgy")
 enemy_scene = ExtResource("4_dqkch")
 player = NodePath("..")
+
+[node name="WaveGenerationNode" type="Node2D" parent="EnemyController" unique_id=1300486029]
+script = ExtResource("5_tuyoq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1805818382]
 shape = SubResource("RectangleShape2D_qlg0r")
