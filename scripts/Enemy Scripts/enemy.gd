@@ -13,12 +13,15 @@ var direction: Vector2 = Vector2.ZERO
 var should_be_blocked: bool = true
 
 signal died(points)
-signal player_lost()
+#signal player_lost()
+signal player_damage(damage)
 
 func _ready() -> void:
 	collision_shape = get_node("CollisionShape2D")  # fetch manually
-	collision_shape.shape = collision_shape.shape.duplicate()
-	collision_shape.shape.radius = enemy_radius
+	var circle = CircleShape2D.new()
+	circle.radius = enemy_radius
+	collision_shape.shape = circle
+	
 	if target:
 		direction = (target.global_position - global_position).normalized()
 	
@@ -35,7 +38,7 @@ func _process(delta: float) -> void:
 
 func _on_area_entered(body) -> void:
 	if body.name == "Player" && should_be_blocked:
-		emit_signal("player_lost")
+		emit_signal("player_damage", damage)
 		queue_free()
 	elif body.name == "Player" && not should_be_blocked:
 		emit_signal("died", 100)

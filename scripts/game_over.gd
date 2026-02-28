@@ -13,4 +13,4 @@ func _process(_delta: float) -> void:
 
 func _on_restart_pressed():
 	GameManager.reset_score()
-	get_tree().change_scene_to_file("res://scenes/player.tscn")
+	get_tree().change_scene_to_file("res://scenes/game.tscn")

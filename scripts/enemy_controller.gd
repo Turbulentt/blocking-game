@@ -2,13 +2,13 @@ extends Node2D
 
 @export var enemy_scene: PackedScene
 
-@export var max_spawn_interval: float = 1.0 # Maximum seconds between spawns
-@export var min_spawn_interval: float = 0.25 # Minimum seconds between spawns
+@export var max_spawn_interval: float = GameManager.max_spawn_interval # Maximum seconds between spawns
+@export var min_spawn_interval: float = GameManager.min_spawn_interval # Minimum seconds between spawns
 
 # Decay rate changes how fast the game will speed up from max to min interval
-@export var decay_rate: float = 0.985 # Value between 0 and 1. 0.99 -> low decay; 0.9 -> fast decay
+@export var decay_rate: float = GameManager.decay_rate # Value between 0 and 1. 0.99 -> low decay; 0.9 -> fast decay
 
-@export var spawn_distance: float = 1000.0 # How far away from player enemies spawn
+@export var spawn_distance: float = GameManager.spawn_distance # How far away from player enemies spawn
 
 @export var current_spawn_interval: float = 1.0 
 @export var player: Node2D
@@ -23,6 +23,10 @@ var current_enemy_index: int = 0      # Which enemy we're on in the wave
 @onready var wave_generator: Node = $WaveGenerationNode
 
 func _ready() -> void:
+	# Start at the slowest (max interval) spawn rate for a clean difficulty reset.
+	current_spawn_interval = max_spawn_interval
+	spawn_timer = 0.0
+	elapsed_time = 0.0
 	current_wave_enemies = wave_generator.generate_new_wave()  # Start with a wave ready
 
 func _process(delta: float) -> void:
@@ -33,6 +37,9 @@ func _process(delta: float) -> void:
 		spawnManager()
 		spawn_timer = 0.0
 		current_spawn_interval = max(min_spawn_interval, max_spawn_interval * pow(decay_rate, elapsed_time))
+
+func get_viewport_center() -> Vector2:
+	return get_viewport().get_visible_rect().size / 2
 
 func spawnManager():
 	# Check if current wave is complete
@@ -48,14 +55,13 @@ func spawnManager():
 	
 
 # ===== SPAWNING =====
-
 func spawn_enemy(type: String, angle: float, should_be_blocked: bool):
 	if enemy_scene == null or player == null:
 		return
 	
 	var enemy = enemy_scene.instantiate()
 	
-	# Set script first — stats will be applied when _ready() fires on add_child
+	# Set correct script
 	match type:
 		"enemy":
 			enemy.set_script(preload("res://scripts/Enemy Scripts/enemy_type_basic.gd"))
@@ -64,24 +70,31 @@ func spawn_enemy(type: String, angle: float, should_be_blocked: bool):
 		"fast":
 			enemy.set_script(preload("res://scripts/Enemy Scripts/enemy_type_fast.gd"))
 	
-	enemy.global_position = Vector2(cos(angle), sin(angle)) * spawn_distance
+	var viewport_center = get_viewport_center()
+	enemy.global_position = viewport_center + Vector2(cos(angle), sin(angle)) * spawn_distance
 	enemy.target = player
 	
 	# Add to tree first; triggers _ready
-	get_tree().current_scene.add_child(enemy)
+	get_tree().root.add_child(enemy)
 	
 	enemy.died.connect(_on_enemy_died)
-	enemy.player_lost.connect(_on_player_lost, CONNECT_DEFERRED)
+	enemy.player_damage.connect(_on_player_damage)
 	
 	# now apply multiplier
-	var difficulty = inverse_lerp(max_spawn_interval, min_spawn_interval, current_spawn_interval)
-	enemy.speed = enemy.speed * lerp(1.0, 4.0, difficulty)
+	var difficulty = 0
+	if max_spawn_interval == min_spawn_interval:
+		difficulty = 4
+		enemy.speed = enemy.speed * 4
+	else:
+		difficulty = clamp(inverse_lerp(max_spawn_interval, min_spawn_interval, current_spawn_interval), 0.0, 1.0)
+		enemy.speed = enemy.speed * lerp(1.0, 4.0, difficulty)
 
 func _on_enemy_died(points):
 	get_node("../CanvasLayer").add_points(points)
 
-func _on_player_lost():
-	call_deferred("_change_scene")
+func _on_player_damage(damage):
+	GameManager.take_damage(damage)
+	get_node("../CanvasLayer").update_health()
 
 func _change_scene():
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

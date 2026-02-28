@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c3bnuohr5b8m8" path="res://scripts/shield.gd" id="2_g2els"]
 [ext_resource type="Script" uid="uid://bca3h8km4lq48" path="res://scripts/enemy_controller.gd" id="3_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bcequxjkiplrg" path="res://scenes/enemy.tscn" id="4_dqkch"]
-[ext_resource type="Script" uid="uid://bwhg872tig3tw" path="res://scripts/points_counter.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://bwhg872tig3tw" path="res://scripts/ui.gd" id="5_qlg0r"]
 [ext_resource type="Script" uid="uid://yjlan0cbdqgl" path="res://scripts/wave_generation.gd" id="5_tuyoq"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g2els"]
@@ -17,11 +17,14 @@ size = Vector2(8, 56)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
 size = Vector2(42, 40)
 
-[node name="Player" type="Area2D" unique_id=1147829799]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tuyoq"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="Player" type="Area2D" unique_id=1077112987]
 script = ExtResource("1_3vyb7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1395084814]
-rotation = -3.1415927
+rotation = 3.1415925
 scale = Vector2(42.92386, 41)
 texture = SubResource("PlaceholderTexture2D_g2els")
 
@@ -53,3 +56,20 @@ script = ExtResource("5_qlg0r")
 [node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=110899159]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=316200016]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -211.0
+offset_bottom = 27.0
+grow_horizontal = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_tuyoq")
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer/HealthBar" unique_id=746052814]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 2.0
+offset_right = 127.0
+offset_bottom = 25.0
