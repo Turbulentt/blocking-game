@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bcequxjkiplrg"]
 
 [ext_resource type="Script" uid="uid://dm2hkriqhjved" path="res://scripts/Enemy Scripts/enemy.gd" id="1_7p1mj"]
+[ext_resource type="Texture2D" uid="uid://ddxiubsplpbjo" path="res://data/content.png" id="2_md0e3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 2.0
@@ -9,6 +10,7 @@ radius = 2.0
 script = ExtResource("1_7p1mj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=916231740]
+texture = ExtResource("2_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=268880165]
 shape = SubResource("CircleShape2D_7p1mj")

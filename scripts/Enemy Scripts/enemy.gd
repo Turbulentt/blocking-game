@@ -5,6 +5,7 @@ extends Area2D
 @export var damage: int = 1
 @export var enemy_radius: float = 8
 @export var enemy_color: Color = Color.WHITE
+@export var turn_rate: float = GameManager.enemy_turn_rate # Radians per second equivalent for steering responsiveness
 
 var collision_shape
 
@@ -31,7 +32,12 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, enemy_radius, enemy_color)
 
 func _process(delta: float) -> void:
-	global_position += direction * speed * delta
+	if target:
+		var desired_direction = (target.global_position - global_position).normalized()
+		# Steer toward the player without snapping instantly.
+		var steer = clamp(turn_rate * delta, 0.0, 1.0)
+		direction = direction.lerp(desired_direction, steer).normalized()
+		global_position += direction * speed * delta
 	
 	if global_position.length() > 2000:
 		queue_free()
