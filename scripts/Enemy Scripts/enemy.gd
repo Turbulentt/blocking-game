@@ -18,6 +18,7 @@ signal died(points)
 signal player_damage(damage)
 
 func _ready() -> void:
+	add_to_group("enemies")
 	collision_shape = get_node("CollisionShape2D")  # fetch manually
 	var circle = CircleShape2D.new()
 	circle.radius = enemy_radius

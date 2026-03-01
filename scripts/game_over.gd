@@ -13,4 +13,6 @@ func _process(_delta: float) -> void:
 
 func _on_restart_pressed():
 	GameManager.reset_score()
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		enemy.queue_free()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
