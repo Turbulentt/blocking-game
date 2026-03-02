@@ -78,6 +78,7 @@ func spawn_enemy(type: String, angle: float, should_be_blocked: bool):
 	get_tree().root.add_child(enemy)
 	
 	enemy.died.connect(_on_enemy_died)
+	
 	enemy.player_damage.connect(_on_player_damage)
 	
 	# now apply multiplier

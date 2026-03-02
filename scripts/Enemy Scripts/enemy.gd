@@ -14,7 +14,7 @@ var direction: Vector2 = Vector2.ZERO
 var should_be_blocked: bool = true
 
 signal died(points)
-#signal player_lost()
+
 signal player_damage(damage)
 
 func _ready() -> void:
