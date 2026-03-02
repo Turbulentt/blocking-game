@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dnpu64hfvpjgn"]
+
+[ext_resource type="ArrayMesh" uid="uid://byerph1f3yfii" path="res://data/Asher.obj" id="1_i8rek"]
+
+[node name="Ducks" type="Node3D" unique_id=1046271643]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1083310420]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=585445398]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1805926160]
+transform = Transform3D(-2.6226832e-10, -0.006, -7.154929e-11, 0, 7.154929e-11, -0.006, 0.006, -2.6226832e-10, -3.1275184e-18, 0.46311456, 0.5503812, -1.8158538)
+mesh = ExtResource("1_i8rek")

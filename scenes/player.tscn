@@ -6,8 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://bcequxjkiplrg" path="res://scenes/enemy.tscn" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://bwhg872tig3tw" path="res://scripts/ui.gd" id="5_qlg0r"]
 [ext_resource type="Script" uid="uid://yjlan0cbdqgl" path="res://scripts/wave_generation.gd" id="5_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://dnpu64hfvpjgn" path="res://scenes/ducks.tscn" id="7_fjrip"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g2els"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_smehm"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qhqgy"]
 
@@ -25,8 +27,7 @@ script = ExtResource("1_3vyb7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1395084814]
 rotation = 3.1415925
-scale = Vector2(42.92386, 41)
-texture = SubResource("PlaceholderTexture2D_g2els")
+texture = SubResource("ViewportTexture_smehm")
 
 [node name="Shield" type="Area2D" parent="." unique_id=241480938]
 script = ExtResource("2_g2els")
@@ -73,3 +74,8 @@ offset_left = 87.0
 offset_top = 2.0
 offset_right = 127.0
 offset_bottom = 25.0
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=997385646]
+transparent_bg = true
+
+[node name="Ducks" parent="SubViewport" unique_id=1046271643 instance=ExtResource("7_fjrip")]
